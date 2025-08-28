@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - PROGRAM SDP - POST TEST KOPRA</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+        :root {
+            --primary-blue: #4A90E2;
+            --light-grey-bg: #f5f7fa;
+            --border-color: #e4e7eb;
+            --text-color-primary: #333;
+            --text-color-secondary: #777;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-grey-bg);
+            margin: 0;
+            color: var(--text-color-primary);
+        }
+
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .app-header {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+        .app-header .logo {
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 20px;
+            font-style: italic;
+        }
+        .app-header .user-info {
+            color: var(--text-color-secondary);
+        }
+
+        .main-content {
+            padding: 20px 30px;
+            flex-grow: 1;
+        }
+
+        .breadcrumbs {
+            font-size: 12px;
+            color: var(--text-color-secondary);
+            margin-bottom: 20px;
+        }
+        .breadcrumbs span {
+            margin: 0 5px;
+        }
+
+        .test-header-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .test-header-meta {
+            font-size: 12px;
+            color: var(--text-color-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .quiz-wrapper {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .quiz-title-bar {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+            position: sticky;
+            top: 0;
+            background-color: #ffffff;
+            z-index: 10;
+        }
+        .quiz-titles h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+        }
+        .quiz-titles h2 {
+            font-size: 16px;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .timer-container {
+            text-align: right;
+        }
+        .timer-container #timer {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-color-primary);
+        }
+        .timer-container .timer-label {
+            font-size: 12px;
+            color: var(--text-color-secondary);
+        }
+
+        #questions-container {
+            padding: 10px 20px;
+        }
+        
+        .question-item {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .question-item:last-child {
+            border-bottom: none;
+        }
+
+        .question-meta {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+        .question-text {
+            font-size: 16px;
+            margin: 10px 0 20px 0;
+            font-weight: 700;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .option input[type="radio"] {
+            display: none;
+        }
+
+        .option label {
+            position: relative;
+            padding-left: 35px;
+            line-height: 24px;
+        }
+
+        .option label::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .option label::after {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary-blue);
+            transform: scale(0);
+            transition: transform 0.1s ease-in-out;
+        }
+
+        .option input[type="radio"]:checked + label::before {
+            border-color: #333;
+            border-width: 3px;
+        }
+        
+        .option input[type="radio"]:checked + label::after {
+            transform: scale(1);
+        }
+        
+        .option input[type="radio"]:checked + label {
+            font-weight: 600;
+        }
+
+        .mark-follow-up {
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: var(--text-color-secondary);
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .mark-follow-up input[type="checkbox"] {
+            margin-right: 12px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .app-footer {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <header class="app-header">
+            <div>☰</div>
+        </header>
+
+        <main class="main-content">
+            <nav class="breadcrumbs">
+                POST TEST <span>&gt;</span> PROGRAM SDP - POST TEST KOPRA
+            </nav>
+
+            <div class="test-header-title">POST TEST KOPRA</div>
+            <div class="test-header-meta"></div>
+
+            <div class="quiz-wrapper">
+                <div class="quiz-title-bar">
+                    <div class="quiz-titles">
+                        <h1 id="test-title">Test - PROGRAM SDP - POST TEST KOPRA</h1>
+                        <h2 id="test-subtitle"></h2>
+                    </div>
+                    <div class="timer-container">
+                        <div id="timer">30:00</div>
+                        <div class="timer-label">Time remaining</div>
+                    </div>
+                </div>
+
+                <div id="questions-container"></div>
+                
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            PT. Bank Mandiri (Persero) Tbk.
+        </footer>
+    </div>
+
+    <script>
+        const quizData = [
+            {"question":"Nasabah dapat mendaftarkan layanan Trade dan Guarantee (Penerbitan L/C, SKBDN, dil.) secara online dengan layanan?:","options":["online Onboarding Value Chain","online Onboarding Mandiri Global Trade","online Onboarding Mandiri Smart Account","online Onboarding Mandiri Cash Management"],"correct":1},
+            {"question":"Cara membuka rekening giro dalam Kopra bagi nasabah New to Bank (belum memiliki Giro) adalah?","options":["Membuka landing page awal dan klik menu pembukaan rekening giro untuk nasabah new to bank dengan mengisi eForm","Melalui halaman registrasi value chain didalam menu Kopra","Membuka landing page awal dan klik menu pembukaan rekening giro untuk nasabah existing giro","Log in kedalam Kopra dan masuk menu pendaftaran giro online untuk nasabah new to bank"],"correct":0},
+            {"question":"Apa itu varian solusi Partnership Based Kopra?","options":["Integrasi KOPRA secara langsung antara sistem nasabah dengan sistem Bank Mandiri (Cth: Mandiri Corporate Payable, Auto Collection H2H, Payment H2H)","Integrasi KOPRA dengan vendor pihak ketiga (Pajakku, Crowdee, Jurnal, iSeller, etc.) untuk menyediakan solusi spesifik sesuai dengan kebutuhan nasabah","Solusi KOPRA yang diakses melalui portal (web-based) melalui kopra.bankmandiri.co.id yang memungkinkan nasabah untuk mengakses berbagai macam channel Bank Mandiri dan fitur dalam satu akses","Solusi KOPRA yang diakses melalui portal (web-based) melalui kopra.bankmandiri.co.id yang memungkinkan nasabah untuk mengakses berbagai macam channel Bank Mandiri dan fitur dalam dua akses"],"correct":1},
+            {"question":"Apa tahapan yang harus dilakukan oleh nasabah saat menggunakan layanan Aplikasi Pembukaan Rekenin Giro di Kopra agar dapat menyelesaikan pembukaan rekening gironya?","options":["Nasabah harus mengisi electronic form di menu Aplikasi Pembukaan rekening Giro di Landing Page Kopra (Bagi nasabah New to Bank) atau menu Account Registration (Bagi nasabah Existing to Bank) lalu setelah menyelesaikan pengisian ","Nasabah cukup mengisi electronic form tanpa harus melakukan proses KYC dan rekening akan langsung jadi"],"correct":0},
+            {"question":"Berapa banyak portal layanan Bank Mandiri yang dapat diakses melalui Portal Kopra by Mandiri?","options":["8 portal layanan","2 portal layanan","12 portal layanan","3 portal layanan"],"correct":0},
+            {"question":"Nasabah dapat mendaftarkan layanan Supply Chain Management secara online dengan layanan?","options":["online Onboarding Mandiri Financial Supply Chain Management","online Onboarding Mandiri Global Trade","online Onboarding Mandiri Smart Account","online Onboarding Mandiri Cash Management"],"correct":0},
+            {"question":"Jika terdapat nasabah yang ingin dapat melakukan pembayaran tagihan ataupun pengecekan saldo rekening, maka dapat ditawarkan?","options":["Jika nasabah Perusahaan dapat ditawarkan Kopra MCM","Jika nasabah Perusahaan dapat ditawarkan Kopra MGT","Jika nasabah Perorangan Pebisnis atau UMKM dapat ditawarkan Kopra MGT","Jika nasabah Perorangan Pebisnis atau UMKM dapat ditawarkan Kopra MCM Lite"],"correct":0},
+            {"question":"Apa yang harus dilakukan jika user Sysadmin (Company Admin) milik nasabah terkunci?","options":["Bank dapat mengirimkan email ke ECO atau Kopra Helpdesk beserta dengan rincian Company ID dan User ID milik nasabah agar dapat dibantu Unlock oleh pihak ECO untuk Unlock di sisi Kopra dan Channel","Tidak bisa melakukan apa — apa karena akun akan terkunci selamanya","Nasabah dapat melakukan Unlock sendiri melalui Kopra"],"correct":0},
+            {"question":"Apa yang harus dilakukan jika User transaksional milik nasabah terkunci di portal Kopra?","options":["Tidak bisa melakukan apa — apa Karena akun nasabah akan terkunci selamanya","Bank dapat memberitahukan kepada nasabah bahwa apabila terdapat User transaksional yang dikunci, maka harap menghubungi Sysadmin nasabah agar dapat di Unlock di sisi Kopra dan Channel","5 (lima)","3 (tiga)"],"correct":1},
+            {"question":"Apa saja aktivitas keuangan yang dapat dilakukan oleh nasabah melalui Kopra Mobile App?","options":["Pengecekan saldo","Pengecekan informasi keuangan dan persetujuan aktivitas transaksi","Pembayaran melalui ARIS","Tarik tunai"],"correct":1},
+            {"question":"PT. QQ Indonesia Mining (QQIM) pakan per yang bergerak di bidang per >10.000 pegawai area site survei dan eksplorasi, modeling tambang, design dan pengeboran yang saat ini membutuhkan penerbitan Bank Garansi secara online. Manakah layanan yang tepat untuk memberikan kemudahan untuk PT. aa Indonesia Mining?","options":["Giro Online Now","Kopra Online Custody","Kopra Trade","Mandiri Mobile Token"],"correct":2},
+            {"question":"Manakah yang merupakan kebutuhan nasabah yang dapat diselesaikan dengan layanan Kopra Smart Account?","options":["Kemudahan datam proses analisa dan evaluasi klaim BPJS","Kebutuhan pemusatan dana bagi rekening tersebar sehingga tidak mengakibatkan idle-fund","Kemudahan melakukan pemindaian QR code Bank Garansi di mobile app","Kemujual dbeli avalahs seacaran on line"],"correct":1},
+            {"question":"Manakah yang bukan merupakan fitur transaksi bagi nasabah layanan Kopra Billing Reconciliation?","options":["Giro Online Now","Executive Dashboard","Bill upload","Reconciliation report"],"correct":0},
+            {"question":"Layanan yang memberikan kemudahan bagi nasabah Rumah Sakit dalam rekonsiliasi klaim BPJS Kesehatan dan transaksi penerimaan pembayaran dari pasien umum disebut:","options":["Layanan online chat","Kopra Hospital Solution","Kopra Mobile App","Mandiri Mobile Token"],"correct":1},
+            {"question":"Layanan digital single access yang menjadi pusat aktivitas transaksi finansial bagi ekosistem bisnis, disebut:","options":["Mandiri Bill Payment","Kopra by Mandiri","Kopra Branch","Mandiri Virtual Account"],"correct":1},
+            {"question":"Inisiatif pengembangan di Super platform Kopra bagi nasabah segmen korporasi di Indonesia maupun nasabah Bank Mandiri Cabang Luar Negeri (CLN) yang dapat memenuhi kebutuhan nasabah untuk melakukan  monitoring dan aktivitas transaksi finansial perusahaan, disebut:","options":["Kopra Virtual Assistant","Kopra Giro Online Now","Kopra Online Onboarding","Kopra Beyond Borders"],"correct":3},
+            {"question":"Perusahaan membutuhkan kemudahan untuk melakukan pembayaran pajak perusahaan dan gaji pegawai masih dilakukan secara manual, hal tersebut merupakan pain points nasabah yang dapat melalui layanan?","options":["Mandiri Bill Payment","Kopra Hospital Solution","Mandiri Smart Account","Kopra Cash Management"],"correct":3},
+            {"question":"Manakah pernyataan yang tepat terkait definisi layanan foreign exchange?","options":["layanan perbankan yang memungkinkan nasabah untuk melakukan transaksi valuta asing (valas) dengan kurs spesial dan secara realtime","Bank umum yang memberikan jasa penitipan efek dan harta lain yang berkaitan dengan efek serta jasa lain","Layanan berbasis portal yang memudahkan nasabah biller Mandiri Bill Collection (MBC) Non Host to Host dalam melakukan aktivasi data tagihan, Identifikasi data tagihan, reporting dan rekonsiliasi transaksi penerimaan","Layanan digital single access yang menjadi pusat aktivitas transaksi finansial"],"correct":0},
+            {"question":"Apa saja fitur dari Consolidated Financial Dashboard?","options":["Transaction Review","Bank Mandiri FX Rate","Semua Benar","Today's Balance"],"correct":2},
+            {"question":"PT. Lezat Food selaku produsen makanan kemasan (principal) ke lebih dari 100 distributor di seluruh Indonesia, menginginkan penerimaan pembayaran invoice tepat waktu dari distributor-nya, Manakah layanan yang tepat untuk memenuhi kebutuhan untuk PT. Lezat Food?","options":["Kopra Value Chain","Kopra Hospital Solution","Giro Online Now","Kopra Billing Reconciliation"],"correct":0},
+            {"question":"Berikut ini adalah varian sotusi dari Kopra by Mandiri, kecuali:","options":["Kopra e-Banking","Kopra Portal","Kopra Partnership","Kopra Host to Host (H2H)"],"correct":0},
+            {"question":"PT. Asuransi XYZ merupakan perusahaan yang menyediakan beragam kebutuhan perlindungan masyarakat, dengan 100 kantor cabang dan 1.000 pegawai. PT. Asuransi XYZ perlu melakukan pembayaran premi peserta asuransi secara autodebit. Hal tersebut bisa diatasi dengan menggunakan salah satu layanan:","options":["Kopra Online Custody","Other Bank Account Information","Mandiri Virtual Account","Kopra Cash Management"],"correct":3},
+            {"question":"Sebutkan salah satu kebutuhan nasabah yang dapat difasilitasi dengan layanan Kopra Online Custody:","options":["Pembiayaan untuk kebutuhan transaksi ekspor impor nasabah","Membutuhkan pelaporan dan informasi portfolio nasabah kustodian secara online","Kemudahan nasabah dalam monitoring klaim informasi BPJS kesehatan","Kebutuhan nasabah untuk melakukan pembayaran tagihan, pajak dan gaji pegawai"],"correct":1},
+            {"question":"Layanan berbasis portal yang memudahkan nasabah biller mandiri bill collection (MBC) Non Host to Host dalam melakukan aktivasi data tagihan, reporting dan rekonsiliasi transaksi penerimaan, merupakan definisi dari layanan:","options":["Kopra Hospital Solution","Kopra Online Custody","Kopra Trade","Kopra Billing Reconciliation"],"correct":3},
+            {"question":"PT. FMCG Snack merupakan perusahaan yang bergerak sebagai produsen makanan kemasan (principal) dengan 200 distributor tersebar di seluruh Indonesia yang membutuhkan inquiry dan approval transaksi pembayaran supplier melalui mobile aplikasi. Manakah layanan yang tepat digunakan untuk PT. FMCG Snack? ","options":["Mandiri Virtual Account","Kopra Partnership","Giro Online Now","Kopra Mobile App"],"correct":3},
+            {"question":"Manakah yang bukan merupakan fitur transaksi dari Kopra Trade?","options":["BPJS Kesehatan Claim Monitoring","Export LC/SKBDN Recelved","Import Collection","Trust Receipt"],"correct":3},
+            {"question":"Manakah yang bukan merupakan fitur transaksi bagi nasabah layanan Kopra Billing Reconciliation?","options":["Reconcillation report","Bill upload","Giro Online Now","Executive Dashboard"],"correct":2},
+            {"question":"Sebutkan fitur dari layanan Kopra Foreign Exchange?","options":["Informasi Status Pembayaran Langsung dan BPJS Kesehatan Claim Monitoring","Mandiri Mobile Token, Mandiri Virtual Assistant dan Mandiri Virtual Account","Kurs Realtime, Special Rate dan Settlement Realtime","Giro Online Now dan Onboarding Transaction Channel"],"correct":2},
+            {"question":"Manakah URL yang untuk dapat mengakses Kopra Global Portal?","options":["https://koprabymandiri.com","www.koprabymandiri-bankmandiri.co.id","www.bankmandiri,com","www.koprabymandiri-bankmandiri.com"],"correct":0},
+            {"question":"Apa saja fitur dari Consolidated Financial Dashboard?","options":["Semua benar","Bank Mandiri FX Rate","Today's Balance","Transaction Review"],"correct":0},
+            {"question":"Layanan perbankan untuk transaksi value chain (meliputi principal, supplier, dan distributor) di antaranya untuk melakukan submit invoice, akseptasi invoice, monitoring pinjaman dan limit pinjaman adalah:","options":["Mandiri Virtual Account","Mandiri Smart Account","Kopra Value Chain","Mandiri Bill Payment"],"correct":2},
+        ];
+
+        window.onload = function() {
+            const questionsContainer = document.getElementById('questions-container');
+            const totalQuestions = quizData.length;
+            
+            function renderAllQuestions() {
+                questionsContainer.innerHTML = ''; 
+                
+                for (let i = 0; i < totalQuestions; i++) {
+                    const questionData = quizData[i];
+                    let optionsHTML = '';
+                    
+                    questionData.options.forEach((option, j) => {
+                        const isChecked = (j === questionData.correct) ? 'checked' : '';
+                        optionsHTML += `
+                            <div class="option">
+                                <input type="radio" id="q${i}o${j}" name="jawaban_q${i}" ${isChecked} disabled>
+                                <label for="q${i}o${j}">${option}</label>
+                            </div>
+                        `;
+                    });
+
+                    const questionElement = document.createElement('div');
+                    questionElement.className = 'question-item';
+                    questionElement.innerHTML = `
+                        <p class="question-meta">Question ${i + 1} of ${totalQuestions}</p>
+                        <p class="question-text">${questionData.question}</p>
+                        <div class="options-container">${optionsHTML}</div>
+                        <div class="mark-follow-up">
+                            <input type="checkbox" id="markFollowUp${i}">
+                            <label for="markFollowUp${i}">Mark for follow up</label>
+                        </div>
+                    `;
+                    questionsContainer.appendChild(questionElement);
+                }
+            }
+
+            let durationInSeconds = 30 * 60; // 30 menit
+            const timerElement = document.getElementById('timer');
+
+            const timerInterval = setInterval(() => {
+                durationInSeconds--;
+                let minutes = parseInt(durationInSeconds / 60, 10);
+                let seconds = parseInt(durationInSeconds % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                timerElement.textContent = minutes + ":" + seconds;
+
+                if (durationInSeconds < 0) {
+                    clearInterval(timerInterval);
+                    timerElement.textContent = "WAKTU HABIS";
+                }
+            }, 1000);
+
+            renderAllQuestions();
+        };
+    </script>
+
+</body>
+</html>
